@@ -6,7 +6,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import validator.UserValidator;
@@ -23,20 +22,20 @@ public class UserController
 		this.validator = validator;
 	}
 	
-	@RequestMapping(value = "showForm", method = RequestMethod.GET)
+	@RequestMapping("/showForm")
 	public ModelAndView viewForm()
 	{
 		return new ModelAndView("showForm.jsp", "jaiHo", new User());
 	}
 	
-	@RequestMapping(value = "mvcForm", method = RequestMethod.POST)
+	@RequestMapping("/mvcForm")
 	public ModelAndView viewResult(@ModelAttribute("hi") User user, BindingResult result)
 	{
 		validator.validate(user, result);
 		
 		if (result.hasErrors())
 		{
-			return new ModelAndView("showForm.jsp", "jaiHo", new User());
+			return new ModelAndView("showForm.jsp", "jaiHo", user);
 		}
 		
 		ModelAndView mv = new ModelAndView();
